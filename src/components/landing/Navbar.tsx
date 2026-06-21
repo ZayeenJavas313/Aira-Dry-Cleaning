@@ -20,7 +20,7 @@ export function Navbar() {
         <a href="/" className="text-violet-600 shrink-0 flex items-center gap-2">
           <Logo className="w-6 h-6 text-violet-600" />
           <span className="text-lg font-bold tracking-tight text-zinc-950 font-display">
-            Aira Laundry
+            Aira Dry Cleaning & Laundry
           </span>
         </a>
 

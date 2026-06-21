@@ -4,7 +4,13 @@ import fs from 'fs';
 import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const dataDir = path.join(__dirname, '../../data');
+
+let dataDir;
+if (process.env.VERCEL) {
+  dataDir = '/tmp/aira-laundry-data';
+} else {
+  dataDir = path.join(__dirname, '../../data');
+}
 if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
 
 const dbPath = process.env.SQLITE_PATH || path.join(dataDir, 'aira_laundry.db');

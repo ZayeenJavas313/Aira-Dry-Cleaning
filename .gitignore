@@ -3,6 +3,7 @@ dist/
 .vite/
 backend/node_modules/
 *.log
+*.err
 .env
 .env.local
 node_modules

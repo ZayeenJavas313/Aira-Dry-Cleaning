@@ -29,7 +29,11 @@ export async function seedDatabase() {
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
     const schema = fs.readFileSync(path.join(__dirname, '../database/schema.sql'), 'utf8');
     for (const stmt of schema.split(';').filter(s => s.trim())) {
-      if (stmt.trim()) await pool.query(stmt);
+      const trimmed = stmt.trim();
+      if (!trimmed) continue;
+      if (/^CREATE\s+DATABASE/i.test(trimmed)) continue;
+      if (/^USE\s+/i.test(trimmed)) continue;
+      await pool.query(trimmed);
     }
     console.log('✅ MySQL schema created');
   }

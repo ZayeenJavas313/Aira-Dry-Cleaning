@@ -1,19 +1,21 @@
 # Setup Database Permanen & Environment Variables Vercel
 
-## 1. Buat Database MySQL di Railway (Gratis)
+## 1. Buat Database MySQL Serverless di TiDB (Gratis)
 
-1. Buka https://railway.app → **Sign up with GitHub**
-2. Klik **New Project** → Pilih **Provision MySQL**
-3. Tunggu ~1 menit sampai MySQL siap (status `Deployed`)
-4. Klik service MySQL → tab **Connect**
-5. Railway otomatis menyediakan env vars. Salin nilai berikut:
-   - `MYSQL_HOST` → (hostname, misal `containers-us-west-xxx.railway.app`)
-   - `MYSQL_PORT` → (biasanya `3306` atau port random seperti `7654`)
-   - `MYSQL_USER` → (biasanya `root`)
-   - `MYSQL_PASSWORD` → (password acak)
-   - `MYSQL_DATABASE` → (biasanya `railway`)
+1. Buka https://tidbcloud.com → **Sign up** (bisa pakai GitHub/Google)
+2. Setelah login, klik **Create Cluster** → pilih **Serverless Tier** (Free)
+3. Pilih region terdekat (misal `Singapore` atau `Tokyo`)
+4. Klik **Create** → tunggu ~3 menit sampai cluster aktif
+5. Setelah aktif, klik **Connect** → pilih **Connect with General Network**
+6. Klik **Create password** → simpaan password yang muncul
+7. Dapatkan connection details:
+   - **Host**: `gateway01.xxx.shared.tidbcloud.com`
+   - **Port**: `4000`
+   - **Username**: `xxx.root`
+   - **Password**: (password yang dibuat)
+   - **Database**: `test` (bisa dibuat sendiri)
 
-> **Note**: Railway MySQL bisa diakses dari luar. Port-nya mungkin random, pakai nilai yang diberikan Railway.
+> **Kenapa TiDB?** MySQL-compatible (zero code change), serverless, free tier 5GB, tanpa kartu kredit.
 
 ---
 
@@ -21,21 +23,21 @@
 
 1. Buka https://vercel.com → pilih project **Aira Laundry**
 2. Masuk ke **Settings** → **Environment Variables**
-3. Tambahkan variable berikut:
+3. Tambahkan variable berikut (pilih environment **Production**):
 
 | Name | Value |
 |------|-------|
 | `DB_TYPE` | `mysql` |
-| `DB_HOST` | (isi dari `MYSQL_HOST` Railway) |
-| `DB_PORT` | (isi dari `MYSQL_PORT` Railway, biasanya `3306`) |
-| `DB_USER` | (isi dari `MYSQL_USER` Railway, biasanya `root`) |
-| `DB_PASSWORD` | (isi dari `MYSQL_PASSWORD` Railway) |
-| `DB_NAME` | (isi dari `MYSQL_DATABASE` Railway, biasanya `railway`) |
-| `JWT_SECRET` | (buat string acak, misal `aira-secret-2024`) |
+| `DB_HOST` | (host dari TiDB, misal `gateway01.xxx.shared.tidbcloud.com`) |
+| `DB_PORT` | `4000` |
+| `DB_USER` | (username dari TiDB, misal `xxx.root`) |
+| `DB_PASSWORD` | (password dari TiDB) |
+| `DB_NAME` | `test` |
+| `DB_SSL` | `true` |
+| `JWT_SECRET` | (string acak, misal `aira-secret-2024-xyz`) |
 | `JWT_EXPIRES_IN` | `7d` |
 
-4. Pilih environment **Production** saat menambahkan
-5. Klik **Save**
+4. Klik **Save**
 
 ---
 
@@ -43,13 +45,12 @@
 
 1. Buka tab **Deployments**
 2. Klik **Redeploy** pada deployment terakhir
-   (Atau trigger deployment baru dengan push ke GitHub)
 3. Tunggu sampai selesai (~2-3 menit)
 4. Buka URL Vercel dan coba login:
    - Email: `admin@aira.com`
    - Password: `password123`
 
-> **Auto-seed**: Saat pertama kali jalan, backend otomatis mendeteksi database kosong dan menjalankan seed data (user + layanan + sample transaksi).
+> **Auto-seed**: Saat pertama kali jalan, backend otomatis seed data jika database kosong.
 
 ---
 
@@ -59,6 +60,7 @@ Cek endpoint health:
 ```
 https://[project-name].vercel.app/api/health
 ```
+
 Response: `{"success":true,"message":"Aira Laundry API is running"}`
 
 ---
@@ -66,14 +68,17 @@ Response: `{"success":true,"message":"Aira Laundry API is running"}`
 ## Troubleshooting
 
 **Error "connect ECONNREFUSED"**
-- Pastikan Railway MySQL sudah deployed (status hijau)
-- Cek port di Railway, mungkin bukan 3306
-- Railway MySQL mungkin perlu public networking diaktifkan
+- Pastikan cluster TiDB sudah aktif (tunggu hingga status **Ready**)
+- Cek host dan port (TiDB pakai port `4000`, bukan 3306)
 
 **Error "ER_ACCESS_DENIED"**
-- Cek username dan password di Vercel env vars
-- Railway MySQL kadang generate user random, bukan root
+- Cek username dan password — TiDB username format `xxx.root`
+- Password hanya ditampilkan sekali saat create, reset jika lupa
+
+**Error "SSL required"**
+- Pastikan `DB_SSL=true` sudah di Vercel env vars
+- TiDB Serverless WAJIB koneksi SSL
 
 **Error "Unknown database"**
-- Cek `DB_NAME` — Railway biasanya pakai `railway`
-- Buat database manual jika perlu
+- Database default TiDB adalah `test`
+- Bisa buat database baru via TiDB Web Console

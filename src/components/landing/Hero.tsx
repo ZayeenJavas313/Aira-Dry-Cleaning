@@ -26,8 +26,8 @@ export function Hero() {
 
         {/* Headline */}
         <h1 className="font-display font-extrabold tracking-tight text-zinc-900 text-4xl sm:text-6xl lg:text-[76px] leading-[1.08] max-w-3xl">
-          <span className="block animate-fade-up">Bersih Sempurna.</span>
-          <span className="block animate-fade-up [animation-delay:100ms] text-violet-600">
+          <span className="block animate-fade-up font-serif-accent font-normal italic text-violet-600">Bersih Sempurna.</span>
+          <span className="block animate-fade-up [animation-delay:100ms]">
             Wangi Tahan Lama.
           </span>
         </h1>

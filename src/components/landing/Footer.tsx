@@ -143,7 +143,7 @@ export function Footer() {
 
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
-          <p>&copy; {currentYear} Aira Dry Cleaning &amp; Laundry Yogyakarta. All rights reserved. Created by <a href="https://javaszayeen.vercel.app/#work" target="_blank" rel="noopener noreferrer" class="text-violet-400 hover:text-violet-300 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 rounded">JavaSzaYeen</a>.</p>
+          <p>&copy; {currentYear} Aira Dry Cleaning &amp; Laundry Yogyakarta. All rights reserved. Created by <a href="https://ahmadnaim.vercel.app/" target="_blank" rel="noopener noreferrer" class="text-violet-400 hover:text-violet-300 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 rounded">JavasZayeen-AhmadNaim</a>.</p>
           <nav aria-label="Footer navigasi bawah" className="flex gap-6">
             <a href="#layanan" className="hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 rounded">Kebijakan Privasi</a>
             <a href="#kontak" className="hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 rounded">Syarat &amp; Ketentuan</a>

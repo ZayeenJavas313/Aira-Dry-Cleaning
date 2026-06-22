@@ -19,7 +19,7 @@ export function Navbar() {
         {/* Logo + Brand */}
         <a href="/" className="text-violet-600 shrink-0 flex items-center gap-2">
           <Logo className="w-7 h-7 text-violet-600" />
-          <span className="hidden sm:inline text-base sm:text-lg font-bold tracking-tight text-zinc-950 font-display">
+          <span className="text-xs sm:text-base lg:text-lg font-bold tracking-tight text-zinc-950 font-display">
             Aira Dry Cleaning & Laundry
           </span>
         </a>

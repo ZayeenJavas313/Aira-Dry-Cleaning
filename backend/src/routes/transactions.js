@@ -143,7 +143,7 @@ router.post('/', authenticate, authorize('admin', 'kasir', 'pelanggan'), [
   }
 });
 
-router.put('/:id/status', authenticate, authorize('admin', 'pegawai'), [
+router.put('/:id/status', authenticate, authorize('admin', 'pegawai', 'kasir', 'pemilik'), [
   body('status').isIn(STATUSES).withMessage('Status tidak valid'),
 ], validate, async (req, res) => {
   try {

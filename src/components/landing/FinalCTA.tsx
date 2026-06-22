@@ -12,7 +12,7 @@ export function FinalCTA() {
       <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
         <h2 className="text-4xl sm:text-6xl font-display font-extrabold text-slate-900 tracking-tight leading-[1.1] max-w-2xl mx-auto">
           Dapatkan pakaian bersih <br className="hidden sm:inline" />
-          dan <span className="font-serif-accent font-normal italic text-violet-600">sempurna.</span>
+          dan <span className="font-serif-accent font-normal italic text-violet-600"> sempurna.</span>
         </h2>
         
         <p className="text-slate-600 mt-6 text-base sm:text-xl max-w-xl mx-auto leading-relaxed">

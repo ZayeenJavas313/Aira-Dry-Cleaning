@@ -139,9 +139,9 @@ export function getNavItems(role: Role) {
   const access: Record<Role, Page[]> = {
     pelanggan: ['dashboard', 'pesan', 'transaksi', 'status', 'pembayaran', 'profil'],
     admin: ['dashboard', 'pelanggan', 'layanan', 'transaksi', 'status', 'pembayaran', 'laporan', 'pengguna', 'profil'],
-    kasir: ['dashboard', 'pelanggan', 'transaksi', 'pembayaran', 'profil'],
+    kasir: ['dashboard', 'pelanggan', 'transaksi', 'status', 'pembayaran', 'profil'],
     pegawai: ['dashboard', 'transaksi', 'status', 'profil'],
-    pemilik: ['dashboard', 'laporan', 'transaksi', 'pelanggan', 'layanan', 'pengguna', 'profil'],
+    pemilik: ['dashboard', 'laporan', 'transaksi', 'status', 'pelanggan', 'layanan', 'pengguna', 'profil'],
   };
   return all.filter(item => access[role].includes(item.id));
 }

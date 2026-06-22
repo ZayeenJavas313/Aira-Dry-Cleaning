@@ -69,7 +69,7 @@ function MainApp() {
       case 'transaksi': return <TransaksiPage role={user.role} />;
       case 'pelanggan': return <PelangganPage role={user.role} />;
       case 'layanan': return <LayananPage role={user.role} />;
-      case 'status': return <StatusPage />;
+      case 'status': return <StatusPage role={user.role} />;
       case 'pembayaran': return <PembayaranPage />;
       case 'laporan': return <LaporanPage />;
       case 'pengguna': return <PenggunaPage />;

@@ -1017,16 +1017,31 @@ export function LayananPage({ role }: { role: Role }) {
 }
 
 // â”€â”€â”€ Status Page â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-export function StatusPage() {
+export function StatusPage({ role }: { role: Role }) {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [filter, setFilter] = useState('all');
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
+  const canUpdate = ['admin', 'kasir', 'pegawai', 'pemilik'].includes(role);
+
+  const load = () => {
+    setLoading(true);
     api.getTransactions({ status: filter === 'all' ? undefined : filter })
       .then(res => setTransactions(res.data.filter((t: Transaction) => t.status !== 'Diambil')))
       .finally(() => setLoading(false));
-  }, [filter]);
+  };
+
+  useEffect(() => { load(); }, [filter]);
+
+  const updateStatus = async (id: number, status: string) => {
+    try {
+      await api.updateStatus(id, status);
+      toast.success(`Status diperbarui menjadi: ${status}`);
+      load();
+    } catch {
+      toast.error('Gagal memperbarui status');
+    }
+  };
 
   if (loading) return <LoadingSpinner />;
 
@@ -1046,12 +1061,25 @@ export function StatusPage() {
               <Badge className={getStatusColor(t.status)}>{t.status}</Badge>
             </div>
             <h4 className="font-bold text-sm">{t.customer_name}</h4>
-            <p className="text-sm text-muted-foreground">{t.service_name}{t.weight > 0 ? ` â€¢ ${t.weight} kg` : ''}</p>
-            {t.note && <div className="mt-2 text-xs bg-muted rounded-lg px-3 py-1.5">ðŸ“ {t.note}</div>}
-            <div className="flex justify-between mt-3 pt-3 border-t border-border">
+            <p className="text-sm text-muted-foreground">{t.service_name}{t.weight > 0 ? ` • ${t.weight} kg` : ''}</p>
+            {t.note && <div className="mt-2 text-xs bg-muted rounded-lg px-3 py-1.5">📝 {t.note}</div>}
+            <div className="flex justify-between items-center mt-3 pt-3 border-t border-border">
               <span className="font-bold">{formatCurrency(t.total)}</span>
               <Badge className={t.payment_status === 'lunas' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-600'}>{t.payment_status === 'lunas' ? 'Lunas' : 'Belum Bayar'}</Badge>
             </div>
+            {canUpdate && (
+              <div className="mt-3 pt-3 border-t border-border">
+                <select
+                  value={t.status}
+                  onChange={e => updateStatus(t.id, e.target.value)}
+                  className="w-full rounded-xl border border-border px-3 py-2 text-xs bg-input-background outline-none focus:ring-2 focus:ring-violet-400 font-semibold"
+                >
+                  {STATUSES.map(s => (
+                    <option key={s} value={s} disabled={s === 'Diambil'}>{s}</option>
+                  ))}
+                </select>
+              </div>
+            )}
           </div>
         ))}
       </div>

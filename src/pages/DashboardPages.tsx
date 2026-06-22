@@ -1068,17 +1068,22 @@ export function StatusPage({ role }: { role: Role }) {
               <Badge className={t.payment_status === 'lunas' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-600'}>{t.payment_status === 'lunas' ? 'Lunas' : 'Belum Bayar'}</Badge>
             </div>
             {canUpdate && (
-              <div className="mt-3 pt-3 border-t border-border flex items-center gap-2">
-                <span className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider shrink-0">Status</span>
-                <select
-                  value={t.status}
-                  onChange={e => updateStatus(t.id, e.target.value)}
-                  className="flex-1 bg-transparent text-xs font-semibold text-foreground outline-none cursor-pointer appearance-none text-center py-1"
-                >
-                  {STATUSES.map(s => (
-                    <option key={s} value={s} disabled={s === 'Diambil'}>{s}</option>
-                  ))}
-                </select>
+              <div className="mt-3 pt-3 border-t border-border">
+                <label className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider block mb-1.5">Update Status</label>
+                <div className="relative">
+                  <select
+                    value={t.status}
+                    onChange={e => updateStatus(t.id, e.target.value)}
+                    className="w-full appearance-none bg-zinc-100 dark:bg-zinc-800 text-sm font-semibold text-foreground rounded-xl px-4 py-2.5 pr-9 outline-none transition-colors cursor-pointer"
+                  >
+                    {STATUSES.map(s => (
+                      <option key={s} value={s} disabled={s === 'Diambil'}>{s}</option>
+                    ))}
+                  </select>
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-muted-foreground">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
+                  </div>
+                </div>
               </div>
             )}
           </div>

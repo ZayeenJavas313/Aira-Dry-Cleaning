@@ -17,7 +17,7 @@ export function Navbar() {
     <nav className="animate-fade-down fixed top-0 left-0 right-0 z-50 bg-white/95 sm:bg-white/80 backdrop-blur-lg border-b border-zinc-100">
       <div className="flex items-center justify-between px-6 sm:px-8 py-4 max-w-7xl mx-auto">
         {/* Logo + Brand */}
-        <a href="/" className="text-violet-600 shrink-0 flex items-center gap-2 ml-1">
+        <a href="/" className="text-violet-600 shrink-0 flex items-center gap-2 ml-4 sm:ml-0">
           <Logo className="w-7 h-7 text-violet-600" />
           <span className="text-sm sm:text-base lg:text-lg font-bold tracking-tight text-zinc-950 font-display">
             Aira Dry Cleaning & Laundry

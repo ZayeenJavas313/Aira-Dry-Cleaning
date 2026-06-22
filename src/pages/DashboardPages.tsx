@@ -1068,11 +1068,12 @@ export function StatusPage({ role }: { role: Role }) {
               <Badge className={t.payment_status === 'lunas' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-600'}>{t.payment_status === 'lunas' ? 'Lunas' : 'Belum Bayar'}</Badge>
             </div>
             {canUpdate && (
-              <div className="mt-3 pt-3 border-t border-border">
+              <div className="mt-3 pt-3 border-t border-border flex items-center gap-2">
+                <span className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider shrink-0">Status</span>
                 <select
                   value={t.status}
                   onChange={e => updateStatus(t.id, e.target.value)}
-                  className="w-full rounded-xl border border-border px-3 py-2 text-xs bg-input-background outline-none focus:ring-2 focus:ring-violet-400 font-semibold"
+                  className="flex-1 bg-transparent text-xs font-semibold text-foreground outline-none cursor-pointer appearance-none text-center py-1"
                 >
                   {STATUSES.map(s => (
                     <option key={s} value={s} disabled={s === 'Diambil'}>{s}</option>

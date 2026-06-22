@@ -1074,13 +1074,13 @@ export function StatusPage({ role }: { role: Role }) {
                   <select
                     value={t.status}
                     onChange={e => updateStatus(t.id, e.target.value)}
-                    className="w-full appearance-none bg-zinc-100 dark:bg-zinc-800 text-sm font-semibold text-foreground rounded-xl px-4 py-2.5 pr-9 outline-none transition-colors cursor-pointer"
+                    className="w-full appearance-none bg-white dark:bg-zinc-800 text-sm font-semibold text-foreground rounded-full px-5 py-3 pr-10 outline-none transition-all cursor-pointer shadow-sm border border-zinc-200 dark:border-zinc-700"
                   >
                     {STATUSES.map(s => (
                       <option key={s} value={s} disabled={s === 'Diambil'}>{s}</option>
                     ))}
                   </select>
-                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-muted-foreground">
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4 text-zinc-400">
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
                   </div>
                 </div>

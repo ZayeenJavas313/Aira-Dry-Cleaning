@@ -46,15 +46,7 @@ export function Navbar() {
             <LogIn className="w-4 h-4 text-violet-600" />
             <span className="hidden sm:inline">Login</span>
           </a>
-          <a
-            href="https://wa.me/6285743999911?text=Halo%20Aira%20Laundry%2C%20saya%20ingin%20memesan%20layanan%20laundry"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-violet-600 text-white text-[13px] sm:text-[14px] font-semibold px-3 sm:px-5 py-2 sm:py-2.5 rounded-full hover:bg-violet-700 transition-colors shadow-sm whitespace-nowrap"
-          >
-            <span className="sm:hidden">WA</span>
-            <span className="hidden sm:inline">Pesan via WA</span>
-          </a>
+
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
             className="md:hidden w-10 h-10 rounded-full text-zinc-900 hover:bg-zinc-100 transition-colors flex items-center justify-center"
@@ -92,14 +84,7 @@ export function Navbar() {
               <LogIn className="w-5 h-5 text-violet-600" />
               Masuk / Login
             </a>
-            <a
-              href="https://wa.me/6285743999911?text=Halo%20Aira%20Laundry%2C%20saya%20ingin%20memesan%20layanan%20laundry"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center py-3 text-[16px] font-bold text-white bg-violet-600 hover:bg-violet-700 rounded-xl transition-colors shadow-sm"
-            >
-              Pesan via WhatsApp
-            </a>
+
           </div>
         </div>
       )}

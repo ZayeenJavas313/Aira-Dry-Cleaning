@@ -5,6 +5,7 @@ import {
 import {
   type Role, type Page, ROLE_LABELS, ROLE_BG, PAGE_TITLES, getNavItems,
 } from '../lib/types';
+import { Logo } from './landing/Logo';
 
 const ICONS: Record<Page, React.ReactNode> = {
   dashboard: <LayoutDashboard size={17} />,
@@ -37,7 +38,7 @@ export function Sidebar({ role, currentPage, onNavigate, onLogout, open, onClose
       <aside className={`fixed top-0 left-0 h-full z-30 flex flex-col w-64 bg-sidebar transition-transform duration-300 ease-in-out ${open ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}>
         <div className="flex items-center gap-3 px-5 py-5 border-b border-sidebar-border">
           <div className="w-9 h-9 bg-sidebar-primary rounded-xl flex items-center justify-center">
-            <Shirt size={19} className="text-sidebar-primary-foreground" />
+            <Logo className="w-5 h-5 text-sidebar-primary-foreground" />
           </div>
           <div>
             <div className="font-bold text-sidebar-foreground text-sm leading-tight">Aira Laundry</div>

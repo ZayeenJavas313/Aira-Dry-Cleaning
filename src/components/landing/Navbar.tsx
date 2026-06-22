@@ -14,12 +14,12 @@ export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <nav className="animate-fade-down fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-lg border-b border-zinc-100">
+    <nav className="animate-fade-down fixed top-0 left-0 right-0 z-50 bg-white/95 sm:bg-white/80 backdrop-blur-lg border-b border-zinc-100">
       <div className="flex items-center justify-between px-6 sm:px-8 py-4 max-w-7xl mx-auto">
         {/* Logo + Brand */}
         <a href="/" className="text-violet-600 shrink-0 flex items-center gap-2">
-          <Logo className="w-6 h-6 text-violet-600" />
-          <span className="text-lg font-bold tracking-tight text-zinc-950 font-display">
+          <Logo className="w-7 h-7 text-violet-600" />
+          <span className="hidden sm:inline text-base sm:text-lg font-bold tracking-tight text-zinc-950 font-display">
             Aira Dry Cleaning & Laundry
           </span>
         </a>
@@ -38,21 +38,22 @@ export function Navbar() {
         </div>
 
         {/* Right side: Login & CTA buttons */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-1.5 sm:gap-3">
           <a
             href="/login"
-            className="flex items-center gap-1 text-zinc-700 hover:text-violet-600 text-[14px] font-semibold px-4 py-2 rounded-full transition-colors"
+            className="flex items-center gap-1 text-zinc-700 hover:text-violet-600 text-[13px] sm:text-[14px] font-semibold px-2 sm:px-4 py-2 rounded-full transition-colors"
           >
             <LogIn className="w-4 h-4 text-violet-600" />
-            <span>Login</span>
+            <span className="hidden sm:inline">Login</span>
           </a>
           <a
             href="https://wa.me/6285743999911?text=Halo%20Aira%20Laundry%2C%20saya%20ingin%20memesan%20layanan%20laundry"
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-violet-600 text-white text-[14px] font-semibold px-5 py-2.5 rounded-full hover:bg-violet-700 transition-colors shadow-sm"
+            className="bg-violet-600 text-white text-[13px] sm:text-[14px] font-semibold px-3 sm:px-5 py-2 sm:py-2.5 rounded-full hover:bg-violet-700 transition-colors shadow-sm whitespace-nowrap"
           >
-            Pesan via WA
+            <span className="sm:hidden">WA</span>
+            <span className="hidden sm:inline">Pesan via WA</span>
           </a>
           <button
             onClick={() => setMobileOpen(!mobileOpen)}

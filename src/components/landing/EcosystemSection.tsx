@@ -73,7 +73,7 @@ export function EcosystemSection() {
             <div
               key={item.title}
               id={sectionId}
-              className="bg-white rounded-2xl border border-slate-200 p-8 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow scroll-mt-20"
+              className="bg-white rounded-2xl border border-slate-200 p-8 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow scroll-mt-24"
             >
               <div>
                 <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-6 ${item.color}`}>

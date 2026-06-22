@@ -3,19 +3,19 @@ import { Menu, X, LogIn } from 'lucide-react';
 import { Logo } from './Logo';
 
 const navLinks = [
-  { label: 'Layanan', href: '#layanan', hasDropdown: false },
-  { label: 'Harga Kiloan', href: '#harga-kiloan', hasDropdown: false },
-  { label: 'Layanan Satuan', href: '#layanan-satuan', hasDropdown: false },
-  { label: 'Lokasi Kami', href: '#lokasi', hasDropdown: false },
-  { label: 'Kontak Ibu Aira', href: '#kontak', hasDropdown: false },
+  { label: 'Layanan', href: '#layanan' },
+  { label: 'Harga Kiloan', href: '#harga-kiloan' },
+  { label: 'Layanan Satuan', href: '#layanan-satuan' },
+  { label: 'Lokasi', href: '#lokasi' },
+  { label: 'Kontak', href: '#kontak' },
 ];
 
 export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <nav className="animate-fade-down relative z-20 w-full max-w-7xl mx-auto">
-      <div className="flex items-center justify-between px-6 sm:px-8 py-5">
+    <nav className="animate-fade-down fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-lg border-b border-zinc-100">
+      <div className="flex items-center justify-between px-6 sm:px-8 py-4 max-w-7xl mx-auto">
         {/* Logo + Brand */}
         <a href="/" className="text-violet-600 shrink-0 flex items-center gap-2">
           <Logo className="w-6 h-6 text-violet-600" />

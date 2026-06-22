@@ -11,7 +11,8 @@ export function ScalabilitySection() {
   }, []);
 
   return (
-    <section id="harga-kiloan" className="bg-white py-20 border-b border-slate-100 relative z-10 scroll-mt-20">
+    <section id="harga-kiloan" className="bg-white py-20 border-b border-slate-100 relative z-10 scroll-mt-24">
+      <div id="layanan-satuan" className="absolute -top-20" />
       <div className="max-w-5xl mx-auto px-6">
         <div className="text-center max-w-2xl mx-auto mb-12">
           <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">

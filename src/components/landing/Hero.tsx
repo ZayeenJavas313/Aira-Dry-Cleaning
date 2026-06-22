@@ -4,7 +4,7 @@ import { DashboardMockup } from './DashboardMockup';
 
 export function Hero() {
   return (
-    <section className="landing-page relative overflow-hidden bg-zinc-50 flex flex-col pt-4">
+    <section className="landing-page relative overflow-hidden bg-zinc-50 flex flex-col pt-16">
       {/* Background Gradient Orbs */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[600px] pointer-events-none overflow-hidden z-0">
         <div className="absolute top-[-20%] left-[20%] w-[600px] h-[600px] rounded-full bg-violet-100/40 blur-[120px]" />

@@ -2,7 +2,7 @@
 import {
   Users, Receipt, DollarSign, UserCheck, Package, Clock, CheckCircle,
   Truck, AlertCircle, Plus, Printer, TrendingUp, Star, Shirt,
-  Search, Eye, Edit2, Trash2, Download,
+  Search, Eye, Edit2, Trash2, Download, ShoppingCart,
 } from 'lucide-react';
 import {
   AreaChart, Area, BarChart, Bar, PieChart, Pie, Cell,
@@ -21,7 +21,7 @@ import { toast } from 'sonner';
 const CHART_COLORS = ['#a78bfa', '#f472b6', '#67e8f9', '#fbbf24', '#86efac'];
 
 // â”€â”€â”€ Dashboard â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-export function DashboardPage() {
+export function DashboardPage({ onNavigate }: { onNavigate?: (p: Page) => void }) {
   const { user } = useAuth();
   const [data, setData] = useState<Record<string, unknown> | null>(null);
   const [loading, setLoading] = useState(true);
@@ -44,10 +44,15 @@ export function DashboardPage() {
     return (
       <div className="space-y-6">
         <div className="bg-gradient-to-br from-violet-500 to-violet-300 rounded-2xl p-6 text-white">
-          <p className="text-white/80 text-sm font-medium mb-1">Selamat datang kembali ðŸ‘‹</p>
+          <p className="text-white/80 text-sm font-medium mb-1">Selamat datang kembali 👋</p>
           <h2 className="text-2xl font-bold">{user.name}</h2>
           <p className="text-white/80 text-sm">Pelanggan Aira Laundry</p>
         </div>
+        <button onClick={() => onNavigate?.('pesan')}
+          className="w-full bg-white text-violet-700 rounded-xl py-4 px-5 font-bold text-base shadow-sm hover:bg-violet-50 transition-all flex items-center justify-center gap-3">
+          <ShoppingCart size={22} />
+          Pesan Laundry Sekarang
+        </button>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           <StatCard title="Total Transaksi" value={stats.total_transactions || 0} icon={<Receipt size={19} className="text-violet-600" />} color="bg-violet-50 dark:bg-violet-950/50" />
           <StatCard title="Sedang Diproses" value={stats.processing || 0} icon={<Clock size={19} className="text-amber-600" />} color="bg-amber-50 dark:bg-amber-950/50" />
@@ -406,7 +411,154 @@ function PegawaiOrderTable({ orders, onUpdate }: { orders: Transaction[]; onUpda
   );
 }
 
-// â”€â”€â”€ Transaksi Page â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Pesan Page (Customer Booking) ──────────────────────────────────────────────
+export function PesanPage() {
+  const { user } = useAuth();
+  const [services, setServices] = useState<Service[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedService, setSelectedService] = useState<Service | null>(null);
+  const [form, setForm] = useState({ weight: '', item_count: '1', note: '' });
+  const [submitting, setSubmitting] = useState(false);
+  const [successTrx, setSuccessTrx] = useState<string | null>(null);
+
+  const loadServices = () => {
+    setLoading(true);
+    api.getServices().then(res => setServices(res.data.filter((s: Service) => s.is_active))).finally(() => setLoading(false));
+  };
+
+  useEffect(() => { loadServices(); }, []);
+
+  const weight = parseFloat(form.weight) || 0;
+  const itemCount = parseInt(form.item_count) || 1;
+  const multiplier = selectedService?.unit === 'kg' ? weight : itemCount;
+  const total = selectedService ? selectedService.price * multiplier : 0;
+
+  const handleSelectService = (s: Service) => {
+    setSelectedService(s);
+    setForm({ weight: '', item_count: '1', note: '' });
+    setSuccessTrx(null);
+  };
+
+  const handleSubmit = async () => {
+    if (!selectedService) return;
+    if (selectedService.unit === 'kg' && weight <= 0) {
+      toast.error('Masukkan berat cucian');
+      return;
+    }
+
+    setSubmitting(true);
+    try {
+      const res = await api.createTransaction({
+        customer_id: user!.customer_id!,
+        service_id: selectedService.id,
+        weight, item_count: itemCount, discount: 0, extra_fee: 0,
+        note: form.note || undefined,
+        payment_status: 'belum',
+      });
+      setSuccessTrx(res.data.trx_code);
+      setSelectedService(null);
+      setForm({ weight: '', item_count: '1', note: '' });
+      toast.success('Pesanan berhasil dibuat!');
+    } catch (err: unknown) {
+      toast.error(err instanceof Error ? err.message : 'Gagal membuat pesanan');
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  if (loading) return <LoadingSpinner />;
+
+  if (successTrx) {
+    return (
+      <div className="max-w-lg mx-auto mt-10 text-center space-y-4">
+        <div className="w-20 h-20 bg-green-100 dark:bg-green-900/50 rounded-full flex items-center justify-center mx-auto">
+          <CheckCircle size={40} className="text-green-600" />
+        </div>
+        <div>
+          <h2 className="text-xl font-bold">Pesanan Berhasil!</h2>
+          <p className="text-muted-foreground text-sm mt-1">Kode transaksi:</p>
+          <p className="text-2xl font-mono font-bold text-violet-600 mt-1">{successTrx}</p>
+        </div>
+        <p className="text-sm text-muted-foreground">Silakan antar cucian Anda ke Aira Laundry terdekat</p>
+        <button onClick={() => setSuccessTrx(null)}
+          className="bg-violet-600 hover:bg-violet-700 text-white px-6 py-2.5 rounded-xl text-sm font-semibold">
+          Pesan Lagi
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="max-w-2xl mx-auto space-y-4">
+      <div className="text-center">
+        <h2 className="text-xl font-bold">Pesan Laundry</h2>
+        <p className="text-sm text-muted-foreground mt-1">Pilih layanan dan isi detail cucian Anda</p>
+      </div>
+
+      <div className="space-y-2">
+        {services.map(s => (
+          <label key={s.id}
+            onClick={() => handleSelectService(s)}
+            className={`flex items-center gap-4 bg-card border rounded-xl p-4 cursor-pointer transition-all ${
+              selectedService?.id === s.id ? 'ring-2 ring-violet-400 border-violet-300' : 'border-border hover:border-violet-200'
+            }`}>
+            <input type="radio" name="service" checked={selectedService?.id === s.id} readOnly className="accent-violet-600" />
+            <div className="flex-1 min-w-0">
+              <p className="font-semibold text-sm">{s.name}</p>
+              <p className="text-xs text-muted-foreground">{s.category} &middot; {s.duration}</p>
+            </div>
+            <div className="text-right shrink-0">
+              <p className="font-bold text-violet-600">{formatCurrency(s.price)}</p>
+              <p className="text-[11px] text-muted-foreground">/{s.unit}</p>
+            </div>
+          </label>
+        ))}
+      </div>
+
+      {selectedService && (
+        <div className="bg-card border border-border rounded-xl p-5 space-y-4">
+          {selectedService.unit === 'kg' ? (
+            <div>
+              <label className="text-sm font-semibold mb-1.5 block">Berat Cucian (kg) *</label>
+              <input type="number" value={form.weight} onChange={e => setForm(p => ({ ...p, weight: e.target.value }))}
+                step="0.5" min="0" placeholder="Contoh: 2.5"
+                className="w-full rounded-xl border border-border px-3.5 py-2.5 text-sm bg-input-background outline-none focus:ring-2 focus:ring-violet-400" />
+            </div>
+          ) : (
+            <div>
+              <label className="text-sm font-semibold mb-1.5 block">Jumlah Item</label>
+              <input type="number" value={form.item_count} onChange={e => setForm(p => ({ ...p, item_count: e.target.value }))}
+                min="1" placeholder="Jumlah item"
+                className="w-full rounded-xl border border-border px-3.5 py-2.5 text-sm bg-input-background outline-none focus:ring-2 focus:ring-violet-400" />
+            </div>
+          )}
+          <div>
+            <label className="text-sm font-semibold mb-1.5 block">Catatan (opsional)</label>
+            <input type="text" value={form.note} onChange={e => setForm(p => ({ ...p, note: e.target.value }))}
+              placeholder="Misal: pisahkan baju putih dan warna..."
+              className="w-full rounded-xl border border-border px-3.5 py-2.5 text-sm bg-input-background outline-none focus:ring-2 focus:ring-violet-400" />
+          </div>
+
+          {total > 0 && (
+            <div className="bg-violet-50 dark:bg-violet-950/30 rounded-xl p-4 border border-violet-200 dark:border-violet-800 -mx-1">
+              <div className="flex justify-between items-center">
+                <span className="text-sm font-semibold text-violet-700 dark:text-violet-300">Estimasi Total</span>
+                <span className="text-xl font-bold text-violet-700 dark:text-violet-300">{formatCurrency(total)}</span>
+              </div>
+            </div>
+          )}
+
+          <button onClick={handleSubmit} disabled={submitting}
+            className="w-full bg-violet-600 hover:bg-violet-700 disabled:opacity-50 text-white rounded-xl py-3 text-sm font-semibold flex items-center justify-center gap-2">
+            {submitting ? 'Memproses...' : 'Pesan Sekarang'}
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─── Transaksi Page ──────────────────────────────────────────────────────────────
 export function TransaksiPage({ role }: { role: Role }) {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [loading, setLoading] = useState(true);

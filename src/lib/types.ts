@@ -2,7 +2,8 @@ export type Role = 'pelanggan' | 'admin' | 'kasir' | 'pegawai' | 'pemilik';
 
 export type Page =
   | 'dashboard' | 'pelanggan' | 'layanan' | 'transaksi'
-  | 'status' | 'pembayaran' | 'laporan' | 'pengguna' | 'profil';
+  | 'status' | 'pembayaran' | 'laporan' | 'pengguna' | 'profil'
+  | 'pesan';
 
 export type LaundryStatus =
   | 'Diterima' | 'Dicuci' | 'Dikeringkan' | 'Disetrika'
@@ -100,6 +101,7 @@ export const PAGE_TITLES: Record<Page, string> = {
   laporan: 'Laporan & Analitik',
   pengguna: 'Manajemen Pengguna',
   profil: 'Profil Saya',
+  pesan: 'Pesan Laundry',
 };
 
 export function formatCurrency(amount: number) {
@@ -124,6 +126,7 @@ export function getStatusColor(status: LaundryStatus) {
 export function getNavItems(role: Role) {
   const all = [
     { id: 'dashboard' as Page, label: 'Dashboard' },
+    { id: 'pesan' as Page, label: 'Pesan Laundry' },
     { id: 'pelanggan' as Page, label: 'Pelanggan' },
     { id: 'layanan' as Page, label: 'Layanan' },
     { id: 'transaksi' as Page, label: 'Transaksi' },
@@ -134,7 +137,7 @@ export function getNavItems(role: Role) {
     { id: 'profil' as Page, label: 'Profil Saya' },
   ];
   const access: Record<Role, Page[]> = {
-    pelanggan: ['dashboard', 'layanan', 'transaksi', 'status', 'pembayaran', 'profil'],
+    pelanggan: ['dashboard', 'pesan', 'transaksi', 'status', 'pembayaran', 'profil'],
     admin: ['dashboard', 'pelanggan', 'layanan', 'transaksi', 'status', 'pembayaran', 'laporan', 'pengguna', 'profil'],
     kasir: ['dashboard', 'pelanggan', 'transaksi', 'pembayaran', 'profil'],
     pegawai: ['dashboard', 'transaksi', 'status', 'profil'],

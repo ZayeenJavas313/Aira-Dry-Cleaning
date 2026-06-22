@@ -10,7 +10,7 @@ import { NotificationPanel } from '../components/NotificationPanel';
 import { PembayaranPage } from '../pages/PembayaranPage';
 import {
   DashboardPage, TransaksiPage, PelangganPage, LayananPage,
-  StatusPage, LaporanPage, PenggunaPage, ProfilPage,
+  StatusPage, LaporanPage, PenggunaPage, ProfilPage, PesanPage,
 } from '../pages/DashboardPages';
 import { api } from '../lib/api';
 import type { Page } from '../lib/types';
@@ -64,7 +64,8 @@ function MainApp() {
 
   const renderPage = () => {
     switch (currentPage) {
-      case 'dashboard': return <DashboardPage />;
+      case 'dashboard': return <DashboardPage onNavigate={setCurrentPage} />;
+      case 'pesan': return <PesanPage />;
       case 'transaksi': return <TransaksiPage role={user.role} />;
       case 'pelanggan': return <PelangganPage role={user.role} />;
       case 'layanan': return <LayananPage role={user.role} />;

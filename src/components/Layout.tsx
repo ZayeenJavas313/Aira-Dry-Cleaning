@@ -1,6 +1,6 @@
 import {
   LayoutDashboard, Users, Receipt, Package, BarChart3, LogOut,
-  X, Shirt, DollarSign, UserCheck, User,
+  X, Shirt, DollarSign, UserCheck, User, ShoppingCart,
 } from 'lucide-react';
 import {
   type Role, type Page, ROLE_LABELS, ROLE_BG, PAGE_TITLES, getNavItems,
@@ -8,6 +8,7 @@ import {
 
 const ICONS: Record<Page, React.ReactNode> = {
   dashboard: <LayoutDashboard size={17} />,
+  pesan: <ShoppingCart size={17} />,
   pelanggan: <Users size={17} />,
   layanan: <Shirt size={17} />,
   transaksi: <Receipt size={17} />,
